@@ -1,21 +1,17 @@
 node {
-    def app
-
-    stage('Clone Repo') {
-	checkout scm
+    stage('Checkout SCM') {
+      checkout scm
     }
-
-    stage('Build image') {
-	app = docker.build("test/testtest")
+    def pythonImage
+    stage('build docker image') {
+      pythonImage = docker.build("flask-demo:latest")
     }
-
-    stage('Test image') {
-	app.inside {
-	    sh 'echo "tests passed"'
-	}
+    stage('test') {
+      pythonImage.inside {
+        sh '. /flask-app/venv/bin/activate && python -m pytest --junitxml=results.xml'
+      }
     }
-
-    stage('Push image') {
-	sh 'echo ${env.BUILD_NUMBER}
+    stage('collect results') {
+      junit 'results.xml'
     }
 }

@@ -1,0 +1,18 @@
+pipeline {
+  agent any
+  options {
+    buildDiscarder(
+      logRotator(numToKeepStr:'10'))
+    }
+    environment {
+      VIRTUAL_ENV = "${env.WORKSPACE}/venv"
+    }
+    
+    stages {
+      stage('Install_Requirements') {
+        steps {
+          sh """
+            echo ${SHELL}
+            [ -d venv ] && rm -rf venv
+            #virtualenv --python=python3 venv
+            virtualenv

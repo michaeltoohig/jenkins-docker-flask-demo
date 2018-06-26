@@ -3,7 +3,9 @@ MAINTAINER Michael Toohig
 
 ADD . /flask-app
 WORKDIR /flask-app
-RUN pip install -r requirements.txt
+RUN python -m venv /flask-app/venv  && \
+    . /flask-app/venv/bin/activate && \
+    pip install -r requirements.txt
 
 EXPOSE 8000
 
