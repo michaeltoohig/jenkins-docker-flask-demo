@@ -1,16 +1,11 @@
-FROM centos:latest
+FROM python:3.6 
 MAINTAINER Michael Toohig
-
-RUN yum update -y
-RUN yum install -y epel-release
-RUN yum install -y python34 python34-setuptools
-RUN easy_install-3.4 pip
 
 ADD . /flask-app
 WORKDIR /flask-app
-RUN pip3 install -r requirements.txt
+RUN pip install -r requirements.txt
 
 EXPOSE 8000
 
-ENTRYPOINT ["python3"]
+ENTRYPOINT ["python"]
 CMD ["app.py"]
